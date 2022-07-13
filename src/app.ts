@@ -1,7 +1,6 @@
 import express, { Router } from 'express';
 import connectToDatabase from './connection';
 
-// test
 class App {
   public app: express.Application;
 
