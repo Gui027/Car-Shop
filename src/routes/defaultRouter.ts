@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import Controller from '../controllers';
 
 class DefaultRouter<T> {
   public router: Router;

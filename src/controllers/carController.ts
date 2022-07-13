@@ -1,42 +1,96 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, Request } from 'express';
+import Controller, { RequestWithBody, ResponseError } from '.';
 import CarService from '../services/carService';
-import ICarService from '../services/interfaces/carService';
-import ICarController from './interfaces/carController';
+import { Car } from '../interfaces/CarInterface';
 
-export default class CarController implements ICarController {
-  private _carService: ICarService;
+class CarController extends Controller<Car> {
+  private _route: string;
 
-  constructor(carService: ICarService) {
-    this._carService = carService;
+  constructor(
+    service = new CarService(),
+    route = '/cars',
+  ) {
+    super(service);
+    this._route = route;
   }
 
-  public async create(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+  get route() { return this._route; }
+
+  create = async (
+    req: RequestWithBody<Car>,
+    res: Response<Car | ResponseError | object>,
+  ): Promise<typeof res> => {
+    const { body } = req;
+
     try {
-      const { test, test1, test2 } = req.body;
-      const carCreated = await this._movieService.create({
-        test,
-        test1,
-        test2,
-      });
-      return res.status(201).json(carCreated);
+      const newCar = await this.service.create(body);
+
+      if (!newCar) {
+        return res.status(500).json({ error: this.errors.internal });
+      }
+
+      if ('error' in newCar) {
+        return res.status(400).json(newCar);
+      }
+
+      return res.status(201).json(newCar);
     } catch (error) {
-      next(error);
+      return res.status(500).json({ error: this.errors.internal });
     }
-  }
+  };
 
-  public read(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-    
-  }
+  readOne = async (
+    req: Request<{ id: string }>,
+    res: Response<Car | ResponseError>,
+  ): Promise<typeof res> => {
+    const { id } = req.params;
+    try {
+      const car = await this.service.readOne(id);
+      return car
+        ? res.json(car)
+        : res.status(400)
+          .json({ error: this.errors.invalidIdLength });
+    } catch (error) {
+      return res.status(404).json({ error: this.errors.notFound });
+    }
+  };
 
-  public readOne(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-    
-  }
+  update = async (
+    req: RequestWithBody<Car>,
+    res: Response<Car | ResponseError>,
+  ): Promise<typeof res> => {
+    const { body } = req;
+    const { id } = req.params;
+    try {
+      const car = await this.service.update(id, body);
+      if (!car) {
+        return res.status(400)
+          .json({ error: this.errors.invalidIdLength });
+      }
+      if ('error' in car) {
+        return res.status(400).json(car);
+      }
+      return res.status(200).json(car);
+    } catch (err) {
+      return res.status(404).json({ error: this.errors.notFound });
+    }
+  };
 
-  public update(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-    
-  }
-
-  public delete(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-    
-  }
+  delete = async (
+    req: Request<{ id: string }>,
+    res: Response<Car | ResponseError>,
+  ): Promise<typeof res> => {
+    const { id } = req.params;
+    try {
+      const car = await this.service.delete(id);
+      return car
+        ? res.status(204).send(car)
+        : res.status(400)
+          .json({ error: this.errors.invalidIdLength });
+    } catch (error) {
+      return res.status(404).json({ error: this.errors.notFound });
+    }
+  };
 }
+
+export default CarController;

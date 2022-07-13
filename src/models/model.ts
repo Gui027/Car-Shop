@@ -1,7 +1,7 @@
 import { Model as M, isValidObjectId, Document } from 'mongoose';
-import IModel from '../interfaces/ModelInterface';
+import { Model } from '../interfaces/ModelInterface';
 
-export default abstract class GenericModel<T> implements IModel<T> {
+export default abstract class GenericModel<T> implements Model<T> {
   constructor(public modelMongoose: M<T & Document>) {
   }
 
