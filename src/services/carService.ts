@@ -40,6 +40,13 @@ export default class CarService extends Service<Car> {
   }
 
   async delete(id: string): Promise<Car | null> {
-    return this.model.delete(id);
+    if (id.length < 24) {
+      return null;
+    }
+    const deleteCar = await this.model.delete(id);
+    if (!deleteCar) {
+      throw new Error('Object not found');
+    }
+    return deleteCar;
   }
 }
