@@ -84,7 +84,7 @@ class CarController extends Controller<Car> {
     try {
       const car = await this.service.delete(id);
       return car
-        ? res.status(204).send(car)
+        ? res.status(204).json()
         : res.status(400)
           .json({ error: this.errors.invalidIdLength });
     } catch (error) {
