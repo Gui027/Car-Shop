@@ -22,7 +22,9 @@ export default class CarService extends Service<Car> {
       return null;
     }
     const car = await this.model.readOne(id);
-    if (!car) throw new Error('Object not found');
+    if (!car) {
+      throw new Error('Object');
+    }
     return car;
   }
 

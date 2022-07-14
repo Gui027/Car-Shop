@@ -73,21 +73,21 @@ describe('Service Car', () => {
     });
   })
 
-  // describe('Update', () => {
-  //   before(() => {
-  //     sinon.stub(Model, 'findByIdAndUpdate').resolves(carMock)
-  //   })
+  describe('Update', () => {
+    before(() => {
+      sinon.stub(Model, 'findOneAndUpdate').resolves(carMock)
+    })
 
-  //   after(() => {
-  //     (Model.findByIdAndUpdate as SinonStub).restore()
-  //   })
+    after(() => {
+      (Model.findOneAndUpdate as SinonStub).restore()
+    })
 
-  //   it('Sucess', async () => {
-  //     const carService = new CarService();
-  //     const carUpdate = await carService.update(mockId, mockCreateBody);
-  //     expect(carUpdate).to.be.deep.equal(carMock);
-  //   })
-  // })
+    it('Sucess', async () => {
+      const carService = new CarService();
+      const carUpdate = await carService.update(mockId, mockCreateBody);
+      expect(carUpdate).to.be.deep.equal(carMock);
+    })
+  })
 
   describe('Delete', () => {
     before(() => {
