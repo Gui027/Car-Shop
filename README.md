@@ -1,16 +1,35 @@
-# 🚧 README em construção 🚧
+# Projeto Car Shop
 
-<!-- Olá, Tryber!
+# Contexto
 
-Esse é apenas um arquivo inicial para o README do seu projeto.
+Nesse projeto, desenvolvi e apliquei os princípios de Programação Orientada a Objetos (POO) para a construção de uma API com CRUD para gerenciar uma concessionária de veículos. Tudo isso foi feito utilizando o banco de dados MongoDB.
 
-É essencial que você preencha esse documento por conta própria, ok?
+## Técnologias usadas
 
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
+Back-end:
+> Desenvolvido usando: NodeJS, ExpressJS, MongoDb, ES6, Docker, POO, ZOD
 
-⚠️ IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
 
--->
+## Instalando Dependências
+
+> Backend
+```bash
+cd api/ 
+npm install
+``` 
+
+## Executando aplicação
+
+* Para rodar o back-end:
+
+  ```
+  cd api/ && npm start
+  ```
+
+## Executando Testes
+
+* Para rodar todos os testes:
+
+  ```
+    npm test
+  ```
